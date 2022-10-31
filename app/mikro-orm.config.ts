@@ -8,7 +8,7 @@ const options: Options = {
   dbName: 'mikro-orm-express-ts',
   highlighter: new MongoHighlighter(),
   debug: true,
-  clientUrl: 'mongodb://mongoadmin:cGNtVC8TMyjHhyYY9Ccjpu2bBQahuDq6@139.180.138.118:27017/?authMechanism=DEFAULT&authSource=admin'
+  clientUrl: process.env.MONGODB_URI
 };
 
 export default options;
