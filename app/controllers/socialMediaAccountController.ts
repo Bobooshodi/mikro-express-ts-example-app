@@ -32,15 +32,13 @@ router.get('/:id', async (req: Request, res: Response) => {
 });
 
 router.post('/', async (req: Request, res: Response) => {
-  if (!req.body.title || !req.body.author) {
+  if (!req.body.name || !req.body.url) {
     res.status(400);
     return res.json({ message: 'One of `title, author` is missing' });
   }
 
   try {
     const account = DI.em.create(SocialMediaAccount, req.body);
-    wrap(account.application, true).__initialized = true;
-    wrap(account.teamMember, true).__initialized = true;
     await DI.socialMediaAccountRepository.persist(account).flush();
 
     res.json(account);

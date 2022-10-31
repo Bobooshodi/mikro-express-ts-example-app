@@ -9,7 +9,8 @@
     "strict": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+    "sourceMap": true
   },
   "include": ["./app"],
   "exclude": ["node_modules"]

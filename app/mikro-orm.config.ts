@@ -5,7 +5,7 @@ import { ApplicationDetail, Page, PricePlan, PricePlanFeature, Service, SocialMe
 const options: Options = {
   type: 'mongo',
   entities: [ApplicationDetail, Page, PricePlan, PricePlanFeature, Service, SocialMediaAccount, TeamMember, Testimonial, Vendor, BaseEntity],
-  dbName: 'mikro-orm-express-ts',
+  dbName: 'ooneprofessionals-api',
   highlighter: new MongoHighlighter(),
   debug: true,
   clientUrl: process.env.MONGODB_URI
