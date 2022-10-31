@@ -2,30 +2,29 @@ import { Request, Response } from 'express';
 import Router from 'express-promise-router';
 import { QueryOrder, wrap } from '@mikro-orm/core';
 import { DI } from '../server';
-import { Book } from '../entities';
+import { ApplicationDetail } from '../entities';
 
 const router = Router();
 
 router.get('/', async (req: Request, res: Response) => {
-  const books = await DI.bookRepository.findAll({
-    populate: ['author'],
-    orderBy: { title: QueryOrder.DESC },
+  const appDetails = await DI.applicationDetailRepository.findAll({
+    populate: ['socials'],
     limit: 20,
   });
-  res.json(books);
+  res.json(appDetails);
 });
 
 router.get('/:id', async (req: Request, res: Response) => {
   try {
-    const book = await DI.bookRepository.findOne(req.params.id, {
-      populate: ['author'],
+    const appDetail = await DI.applicationDetailRepository.findOne(req.params.id, {
+      populate: ['socials'],
     });
 
-    if (!book) {
+    if (!appDetail) {
       return res.status(404).json({ message: 'Book not found' });
     }
 
-    res.json(book);
+    res.json(appDetail);
   } catch (e: any) {
     return res.status(400).json({ message: e.message });
   }
@@ -38,11 +37,10 @@ router.post('/', async (req: Request, res: Response) => {
   }
 
   try {
-    const book = DI.em.create(Book, req.body);
-    wrap(book.author, true).__initialized = true;
-    await DI.bookRepository.persist(book).flush();
+    const appDetail = DI.em.create(ApplicationDetail, req.body);
+    await DI.applicationDetailRepository.persist(appDetail).flush();
 
-    res.json(book);
+    res.json(appDetail);
   } catch (e: any) {
     return res.status(400).json({ message: e.message });
   }
@@ -50,19 +48,19 @@ router.post('/', async (req: Request, res: Response) => {
 
 router.put('/:id', async (req: Request, res: Response) => {
   try {
-    const book = await DI.bookRepository.findOne(req.params.id);
+    const appDetail = await DI.applicationDetailRepository.findOne(req.params.id);
 
-    if (!book) {
+    if (!appDetail) {
       return res.status(404).json({ message: 'Book not found' });
     }
 
-    wrap(book).assign(req.body);
-    await DI.bookRepository.flush();
+    wrap(appDetail).assign(req.body);
+    await DI.applicationDetailRepository.flush();
 
-    res.json(book);
+    res.json(appDetail);
   } catch (e: any) {
     return res.status(400).json({ message: e.message });
   }
 });
 
-export const BookController = router;
+export const ApplicationDetailsController = router;
