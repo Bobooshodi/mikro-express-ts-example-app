@@ -7,5 +7,6 @@ export * from './Service';
 export * from './SocialMediaAccount';
 export * from './TeamMember';
 export * from './Testimonial';
+export * from './User';
 export * from './Vendor';
 

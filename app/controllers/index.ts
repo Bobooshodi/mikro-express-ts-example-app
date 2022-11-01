@@ -1,4 +1,5 @@
 export * from './applicationDetailsController';
+export * from './authController';
 export * from './pagesController';
 export * from './pricePlansController';
 export * from './pricePlanFeaturesController';
