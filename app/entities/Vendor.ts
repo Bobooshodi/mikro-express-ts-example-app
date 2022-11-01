@@ -8,7 +8,7 @@ export class Vendor extends BaseEntity {
   public name!: string;
 
   @Property()
-  public image!: string;
+  public logo!: string;
 
   constructor() {
     super();

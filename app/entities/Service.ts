@@ -4,8 +4,8 @@ import { BaseEntity } from './BaseEntity';
 @Entity()
 export class Service extends BaseEntity {
 
-  @Property()
-  public icon!: string;
+  @Property({ nullable: true})
+  public icon?: string;
 
   @Property()
   public title!: string;

@@ -4,10 +4,11 @@ import express from 'express';
 import { EntityManager, EntityRepository, MikroORM, RequestContext } from '@mikro-orm/core';
 import * as dotenv from 'dotenv'
 import passport  from "passport";
+import cors from 'cors';
 
 dotenv.config();
 
-import {ApplicationDetailsController, SocialMediaAccountController} from './controllers';
+import { SocialMediaAccountController} from './controllers';
 import {
   ApplicationDetail,
   Page,
@@ -20,7 +21,7 @@ import {
   User,
   Vendor
 } from './entities';
-import { AuthRouter } from "./routes";
+import { ApplicationDetailRouter, AuthRouter } from "./routes";
 
 export const DI = {} as {
   server: http.Server;
@@ -55,10 +56,11 @@ export const init = (async () => {
   DI.userRepository = DI.orm.em.getRepository(User);
   DI.vendorRepository = DI.orm.em.getRepository(Vendor);
 
+  app.use(cors());
   app.use(express.json());
   app.use((req, res, next) => RequestContext.create(DI.orm.em, next));
   app.use('/', AuthRouter);
-  app.use('/app-details', passport.authenticate('jwt', { session: false }), ApplicationDetailsController);
+  app.use('/app-details', passport.authenticate('jwt', { session: false }), ApplicationDetailRouter);
   app.use('/socials', passport.authenticate('jwt', { session: false }), SocialMediaAccountController);
   app.use((req, res) => res.status(404).json({ message: 'No route found' }));
 

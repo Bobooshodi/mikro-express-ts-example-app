@@ -1,20 +1,18 @@
 import { Request, Response } from 'express';
-import Router from 'express-promise-router';
-import { QueryOrder, wrap } from '@mikro-orm/core';
+import { wrap } from '@mikro-orm/core';
+
 import { DI } from '../server';
 import { ApplicationDetail } from '../entities';
 
-const router = Router();
-
-router.get('/', async (req: Request, res: Response) => {
+export const getAppDetails = async (req: Request, res: Response) => {
   const appDetails = await DI.applicationDetailRepository.findAll({
     populate: ['socials'],
     limit: 20,
   });
   res.json(appDetails);
-});
+};
 
-router.get('/:id', async (req: Request, res: Response) => {
+export const getAppDetail = async (req: Request, res: Response) => {
   try {
     const appDetail = await DI.applicationDetailRepository.findOne(req.params.id, {
       populate: ['socials'],
@@ -28,12 +26,13 @@ router.get('/:id', async (req: Request, res: Response) => {
   } catch (e: any) {
     return res.status(400).json({ message: e.message });
   }
-});
+};
 
-router.post('/', async (req: Request, res: Response) => {
-  if (!req.body.title || !req.body.author) {
+export const createAppDetail = async (req: Request, res: Response) => {
+  const { businessName, businessAddress, mobileNumber, emailAddress, aboutBusiness } = req.body;
+  if (!businessName || !businessAddress ||!mobileNumber || !emailAddress || !aboutBusiness) {
     res.status(400);
-    return res.json({ message: 'One of `title, author` is missing' });
+    return res.json({ message: 'One of `businessName, businessAddress, mobileNumber, emailAddress, aboutBusiness` is missing' });
   }
 
   try {
@@ -44,9 +43,9 @@ router.post('/', async (req: Request, res: Response) => {
   } catch (e: any) {
     return res.status(400).json({ message: e.message });
   }
-});
+};
 
-router.put('/:id', async (req: Request, res: Response) => {
+export const updateAppDetail = async (req: Request, res: Response) => {
   try {
     const appDetail = await DI.applicationDetailRepository.findOne(req.params.id);
 
@@ -61,6 +60,4 @@ router.put('/:id', async (req: Request, res: Response) => {
   } catch (e: any) {
     return res.status(400).json({ message: e.message });
   }
-});
-
-export const ApplicationDetailsController = router;
+};
