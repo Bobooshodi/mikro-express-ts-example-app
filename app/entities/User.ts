@@ -17,7 +17,7 @@ export class User extends BaseEntity {
   public email!: string;
 
   @Property()
-  public password!: string;
+  public password: string;
 
   constructor() {
     super();

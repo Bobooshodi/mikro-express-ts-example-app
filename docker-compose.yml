@@ -1,13 +1,31 @@
 version: "3.4"
 
 services:
+  api:
+    build:
+      context: .
+      dockerfile: docker/api/Dockerfile
+    ports:
+      - "3001:3001"
+    container_name: api
+    networks:
+      - private
+
   mongo:
     container_name: mongo
-    image: mongo:5.0
+    image: mongo:latest
     ports:
       - "27017:27017"
     volumes:
       - mongo:/data/db
+    networks:
+      - private
+    env_file:
+      - ./docker/db/.env
 
 volumes:
   mongo:
+
+networks:
+  private:
+    external: true

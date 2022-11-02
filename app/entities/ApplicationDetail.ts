@@ -6,6 +6,9 @@ import { SocialMediaAccount } from "./SocialMediaAccount";
 export class ApplicationDetail extends BaseEntity {
 
   @Property()
+  public logo!: string;
+
+  @Property()
   public businessName!: string;
 
   @Property()
